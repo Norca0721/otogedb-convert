@@ -47,7 +47,7 @@ def map_date_to_version(raw_date_str, mapping):
 
 def parse_ds_value(ds_str):
     """
-    解析 ds 字符串，提取数值部分，若包含 '+' 则返回基数+0.5，否则返回基数。
+    解析 ds 字符串，提取数值部分，若包含 '+' 则返回基数+0.6，否则返回基数。
     :param ds_str: 包含难度信息的字符串
     :return: 解析后的浮点数或 None
     """
@@ -57,7 +57,7 @@ def parse_ds_value(ds_str):
     if not num_str:
         return None
     base = float(num_str)
-    return base + 0.5 if '+' in ds_str else base
+    return base + 0.6 if '+' in ds_str else base
 
 
 def parse_notes(song, difficulty_prefix, song_type):
