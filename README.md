@@ -20,6 +20,11 @@ pip install -r requirements.txt
 运行`convert.py`文件，运行完成之后会在本地产生`convert_music_data.json`即为目标数据
 
 ## ⚠️ 说明
+本项目通过`music_data/mapping.json`文件中个各版本的时间范围进行版本号转换
+
+版本更新时请修改`NEW_VERSION`和`NEW_VERSION_RELEASES_DATE`两个常量为当前版本正确值
+
+同时在`music_data/mapping.json`文件中添加最新版本的信息
 
 本项目转换数据格式后，会同时抓取水鱼查分器的music_data数据将otogedb中缺失的exp和bas谱面的数据进行补全覆盖
 
