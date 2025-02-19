@@ -245,16 +245,17 @@ def process_utage_song(song, from_mapping):
 
 def update_special_cases(output_data):
     """
-    根据特殊情况字典直接覆盖部分谱面的 id。
-    同名歌曲差不多得了
+    根据特殊情况字典直接覆盖部分谱面的 id 和歌名。
     """
     special_cases = {
-        "1e44516a8a3b5a51": "131",
-        "e90f79d9dcff84df": "383",
+        "1e44516a8a3b5a51": {"id": "131", "title": "Link"},
+        "e90f79d9dcff84df": {"id": "383", "title": "Link(COF)"},
     }
     for song in output_data:
-        if song.get("id") in special_cases:
-            song["id"] = special_cases[song.get("id")]
+        original_id = song.get("id")
+        if original_id in special_cases:
+            song["id"] = special_cases[original_id]["id"]
+            song["title"] = special_cases[original_id]["title"]
 
 
 def update_ids_from_origin(output_data, origin_music_data):
