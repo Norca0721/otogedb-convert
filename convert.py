@@ -256,6 +256,7 @@ def update_special_cases(output_data):
         if original_id in special_cases:
             song["id"] = special_cases[original_id]["id"]
             song["title"] = special_cases[original_id]["title"]
+            song["basic_info"]["title"] = special_cases[original_id]["title"]
 
 
 def update_ids_from_origin(output_data, origin_music_data):
