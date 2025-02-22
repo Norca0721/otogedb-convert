@@ -94,8 +94,10 @@ def parse_basic_info(song, song_type, from_mapping):
     :param from_mapping: 日期到版本名称的映射字典
     :return: 基本信息字典
     """
-    # 优先判断 SD 和 DX 的情况，其它情况统一使用 date_added
-    if "lev_bas" in song and "dx_lev_bas" in song:
+    # 优先判断 SD 和 DX 的情况，以及是否为utage的情况，其它情况统一使用 date_added
+    if song_type == "utage":
+            raw_from = song.get("date_updated", "") or song.get("date_added", "")
+    elif "lev_bas" in song and "dx_lev_bas" in song:
         raw_from = song.get("date_added", "") if song_type == "SD" else song.get("date_updated", "")
     else:
         raw_from = song.get("date_added", "")
