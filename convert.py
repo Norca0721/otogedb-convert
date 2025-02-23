@@ -263,19 +263,25 @@ def update_special_cases(output_data):
 
 def update_ids_from_origin(output_data, origin_music_data):
     """
-    使用本地 origin_music_data.json 文件的数据，通过 (title, type) 匹配来更新谱面 id。
+    优先使用origin_music_data.json中的部分数据，达到可以保存手动编辑后的 id 的目的。
     """
     origin_dict = {
-        (item.get("title", ""), item.get("type", "")): item.get("id", "")
+        (item.get("title", ""), item.get("type", "")): item
         for item in origin_music_data
     }
     for song in output_data:
-        # 若特殊情况已处理，则跳过
+        # Skip special cases that have been processed.
         if song.get("id") in ["131", "383"]:
             continue
         key = (song.get("title", ""), song.get("type", ""))
         if key in origin_dict and origin_dict[key]:
-            song["id"] = origin_dict[key]
+            origin_item = origin_dict[key]
+            if song.get("type", "") == "UTAGE":
+                song["id"] = origin_item.get("id", song["id"])
+                song["ds"] = origin_item.get("ds", song["ds"])
+                song["charts"] = origin_item.get("charts", song["charts"])
+            else:
+                song["id"] = origin_item.get("id", song["id"])
 
 
 def update_ds_from_diving_fish(output_data, diving_fish_data):
