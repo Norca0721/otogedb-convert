@@ -95,12 +95,22 @@ def parse_basic_info(song, song_type, from_mapping):
     :return: 基本信息字典
     """
     # 优先判断 SD 和 DX 的情况，以及是否为utage的情况，其它情况统一使用 date_added
-    if song_type == "utage":
+    
+    date_added = song.get("date_added", "")
+    if int(date_added) < 20190711:
+        if song_type == "utage":
             raw_from = song.get("date_updated", "") or song.get("date_added", "")
-    elif "lev_bas" in song and "dx_lev_bas" in song:
-        raw_from = song.get("date_added", "") if song_type == "SD" else song.get("date_updated", "")
+        elif "lev_bas" in song and "dx_lev_bas" in song:
+            raw_from = song.get("date_added", "") if song_type == "SD" else song.get("date_updated", "")
+        else:
+            raw_from = song.get("date_added", "")
     else:
-        raw_from = song.get("date_added", "")
+        if song_type == "utage":
+            raw_from = song.get("date_updated", "") or song.get("date_added", "")
+        elif "lev_bas" in song and "dx_lev_bas" in song:
+            raw_from = song.get("date_added", "") if song_type == "DX" else song.get("date_updated", "")
+        else:
+            raw_from = song.get("date_added", "")
 
     mapped_from = map_date_to_version(raw_from, from_mapping)
     bpm_value = song.get("bpm", "0")
@@ -332,6 +342,7 @@ def adjust_sd_dx_ids(output_data):
 def main():
     # 数据来源 URL
     oto_data_url = "https://raw.githubusercontent.com/KBVsent/otoge-db/refs/heads/master/maimai/data/music-ex.json"
+    #oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
