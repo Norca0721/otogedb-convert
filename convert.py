@@ -374,8 +374,8 @@ def adjust_sd_dx_ids(output_data):
 
 def main():
     # 数据来源 URL
-    #oto_data_url = "https://raw.githubusercontent.com/KBVsent/otoge-db/refs/heads/master/maimai/data/music-ex.json"
-    oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
+    oto_data_url = "https://raw.githubusercontent.com/KBVsent/otoge-db/refs/heads/master/maimai/data/music-ex.json"
+    #oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
