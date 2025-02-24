@@ -1,7 +1,9 @@
 import requests
 import json
 import re
+import pathlib
 
+ROOT = pathlib.Path(__file__).parent
 # 常量定义
 NEW_VERSION = "maimai でらっくす PRiSM"
 NEW_VERSION_RELEASES_DATE = 20240912
@@ -57,7 +59,7 @@ def parse_ds_value(ds_str):
     if not num_str:
         return None
     base = float(num_str)
-    return base + 0.5 if '+' in ds_str else base
+    return base + 0.6 if '+' in ds_str else base
 
 
 def parse_notes(song, difficulty_prefix, song_type):
@@ -225,23 +227,52 @@ def process_utage_song(song, from_mapping):
     title = song["title"]
 
     # 优先尝试使用 "lev_utage_i"，否则使用 "lev_utage"
-    ut_str = song.get("lev_utage_i", "") or song.get("lev_utage", "")
+    ut_str = song.get("lev_utage", "")
     difficulty = parse_ds_value(ut_str) if ut_str else None
-    ds = [difficulty] if difficulty is not None else []
-    level_list = [song.get("lev_utage", "")]
 
     note_keys = ["notes_tap", "notes_hold", "notes_slide", "notes_touch", "notes_break"]
     notes = []
-    for nk in note_keys:
-        key = f"lev_utage_{nk}"
-        value = song.get(key, "")
-        try:
-            notes.append(int(value))
-        except ValueError:
-            notes.append(0)
-    chart = {"notes": notes, "charter": "-"}
-    basic_info = parse_basic_info(song, "utage", from_mapping)
-
+    
+    notes1 = []
+    notes2 = []
+    
+    if "lev_utage_right_notes" in song:
+        level_list = [song.get("lev_utage", ""), song.get("lev_utage", "")]
+        ds = [difficulty, difficulty] if difficulty is not None else []
+        
+        for nk in note_keys:
+            key = f"lev_utage_left_{nk}"
+            value = song.get(key, "")
+            try:
+                notes1.append(int(value))
+            except ValueError:
+                notes1.append(0)
+                
+            key = f"lev_utage_right_{nk}"
+            value = song.get(key, "")
+            try:
+                notes2.append(int(value))
+            except ValueError:
+                notes2.append(0)
+                
+        chart = [{"notes": notes1, "charter": "-"}, {"notes": notes2, "charter": "-"}]
+        basic_info = parse_basic_info(song, "utage", from_mapping)
+        
+    elif "lev_utage_left" not in song:
+        level_list = [song.get("lev_utage", "")]
+        ds = [difficulty] if difficulty is not None else []
+        for nk in note_keys:
+            key = f"lev_utage_{nk}"
+            value = song.get(key, "")
+            try:
+                notes.append(int(value))
+            except ValueError:
+                notes.append(0)
+            
+        chart = [{"notes": notes, "charter": "-"}]
+        basic_info = parse_basic_info(song, "utage", from_mapping)
+            
+    
     return {
         "id": temporary_id,
         "title": title,
@@ -250,7 +281,7 @@ def process_utage_song(song, from_mapping):
         "ds": ds,
         "level": level_list,
         "cids": [],
-        "charts": [chart],
+        "charts": chart,
         "basic_info": basic_info
     }
 
@@ -288,8 +319,8 @@ def update_ids_from_origin(output_data, origin_music_data):
             origin_item = origin_dict[key]
             if song.get("type", "") == "UTAGE":
                 song["id"] = origin_item.get("id", song["id"])
-                song["ds"] = origin_item.get("ds", song["ds"])
-                song["charts"] = origin_item.get("charts", song["charts"])
+                #song["ds"] = origin_item.get("ds", song["ds"])
+                #song["charts"] = origin_item.get("charts", song["charts"])
             else:
                 song["id"] = origin_item.get("id", song["id"])
 
@@ -350,7 +381,7 @@ def main():
     diving_fish_data = requests.get(diving_fish_url).json()
 
     # 加载用于版本映射的本地文件
-    from_mapping = load_mapping("music_data/mapping.json")
+    from_mapping = load_mapping(ROOT / "music_data/mapping.json")
 
     output_data = []
     for song in data:
@@ -367,7 +398,7 @@ def main():
 
     # 从本地 origin_music_data.json 中加载数据，并更新 id
     try:
-        with open("music_data/origin_music_data.json", "r", encoding="utf-8") as f:
+        with open(ROOT / "music_data/origin_music_data.json", "r", encoding="utf-8") as f:
             origin_music_data = json.load(f)
     except FileNotFoundError:
         origin_music_data = []
@@ -381,7 +412,7 @@ def main():
 
     # 保存处理后的数据到 JSON 文件
     output_file = "convert_music_data.json"
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(ROOT / output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=4, ensure_ascii=False)
 
     print(f"数据已保存到 {output_file}，先根据 origin_music_data.json 更新 id，再仅在 (title,type) 匹配时更新 ds 前两项，最后对相同 title 的 SD 和 DX 进行 id 调整。")
