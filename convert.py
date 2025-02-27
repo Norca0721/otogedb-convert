@@ -325,10 +325,13 @@ def update_ids_from_origin(output_data, origin_music_data):
                     #song["charts"] = origin_item.get("charts", song["charts"])
                 else:
                     song["id"] = origin_item.get("id", song["id"])
-            else:
+            elif song.get("type", "") != "UTAGE":
                 song["basic_info"]["bpm"] = origin_item.get("bpm", origin_item["basic_info"]["bpm"])
                 song["ds"] = origin_item.get("ds", song["ds"])
                 song["charts"] = origin_item.get("charts", song["charts"])
+                
+            elif song.get("type", "") == "UTAGE":
+                song["id"] = origin_item.get("id", song["id"])
 
 
 def update_ds_from_diving_fish(output_data, diving_fish_data):
@@ -378,8 +381,8 @@ def adjust_sd_dx_ids(output_data):
 
 def main():
     # 数据来源 URL
-    oto_data_url = "https://raw.githubusercontent.com/KBVsent/otoge-db/refs/heads/master/maimai/data/music-ex.json"
-    #oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
+    #oto_data_url = "https://raw.githubusercontent.com/KBVsent/otoge-db/refs/heads/master/maimai/data/music-ex.json"
+    oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
