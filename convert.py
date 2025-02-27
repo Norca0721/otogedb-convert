@@ -325,6 +325,10 @@ def update_ids_from_origin(output_data, origin_music_data):
                     #song["charts"] = origin_item.get("charts", song["charts"])
                 else:
                     song["id"] = origin_item.get("id", song["id"])
+            else:
+                song["basic_info"]["bpm"] = origin_item.get("bpm", origin_item["basic_info"]["bpm"])
+                song["ds"] = origin_item.get("ds", song["ds"])
+                song["charts"] = origin_item.get("charts", song["charts"])
 
 
 def update_ds_from_diving_fish(output_data, diving_fish_data):
