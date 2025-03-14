@@ -5,8 +5,8 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).parent
 # 常量定义
-NEW_VERSION = "maimai でらっくす PRiSM"
-NEW_VERSION_RELEASES_DATE = 20240912
+NEW_VERSION = "maimai でらっくす PRiSM PLUS"
+NEW_VERSION_RELEASES_DATE = 20250313
 
 
 def load_mapping(file_path):
