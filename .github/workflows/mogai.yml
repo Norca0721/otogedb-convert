@@ -28,7 +28,7 @@ jobs:
         run: python convert.py
 
       - name: Run intl_convert.py
-        run: pthon intl_convert.py
+        run: python intl_convert.py
 
       - name: Rename JSON file to avoid .gitignore issues
         run: mv convert_music_data.json converted_data.json
