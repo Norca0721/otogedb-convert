@@ -5,7 +5,7 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).parent
 # 常量定义
-NEW_VERSION = "maimai でらっくす PRiSM PLUS"
+NEW_VERSION = "maimai でらっくす PRiSM"
 NEW_VERSION_RELEASES_DATE = 20250313
 MID_COUNTER = 1
 
@@ -99,21 +99,21 @@ def parse_basic_info(song, song_type, from_mapping):
     """
     # 优先判断 SD 和 DX 的情况，以及是否为utage的情况，其它情况统一使用 date_added
     
-    date_added = song.get("date_added", "")
-    if int(date_added) < 20190711:
+    date_added = song.get("date_intl_added", 0)
+    if int(date_added) < 20191115:
         if song_type == "utage":
-            raw_from = song.get("date_updated", "") or song.get("date_added", "")
+            raw_from = song.get("date_intl_updated", "") or song.get("date_intl_added", "")
         elif "lev_bas" in song and "dx_lev_bas" in song:
-            raw_from = song.get("date_added", "") if song_type == "SD" else song.get("date_updated", "")
+            raw_from = song.get("date_intl_added", "") if song_type == "SD" else song.get("date_intl_updated", "")
         else:
-            raw_from = song.get("date_added", "")
+            raw_from = song.get("date_intl_added", "")
     else:
         if song_type == "utage":
-            raw_from = song.get("date_updated", "") or song.get("date_added", "")
+            raw_from = song.get("date_intl_updated", "") or song.get("date_intl_added", "")
         elif "lev_bas" in song and "dx_lev_bas" in song:
-            raw_from = song.get("date_added", "") if song_type == "DX" else song.get("date_updated", "")
+            raw_from = song.get("date_intl_added", "") if song_type == "DX" else song.get("date_intl_updated", "")
         else:
-            raw_from = song.get("date_added", "")
+            raw_from = song.get("date_intl_added", "")
             
     if song['title'] == "夜明けまであと３秒":
         raw_from = "20170214"
@@ -427,6 +427,9 @@ def intl_music_data():
 
     with open(ROOT / 'intl_music_data.json', 'w', encoding='utf-8') as f:
         json.dump(origin_music_data, f, indent=4, ensure_ascii=False)
+        
+def remove_delete(output_data):
+    return [item for item in output_data if item['basic_info']['release_date'] != ""]
 
 def main():
     # 数据来源 URL
@@ -437,11 +440,11 @@ def main():
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
-    data = requests.get(oto_data_url).json()
+    data = requests.get(oto_data_intl_url).json()
     diving_fish_data = requests.get(diving_fish_url).json()
 
     # 加载用于版本映射的本地文件
-    from_mapping = load_mapping(ROOT / "music_data/mapping.json")
+    from_mapping = load_mapping(ROOT / "music_data/intl_mapping.json")
 
     output_data = []
     for song in data:
@@ -469,9 +472,11 @@ def main():
 
     # 对同一 title 的 SD 与 DX 进行 id 调整
     adjust_sd_dx_ids(output_data)
+    
+    output_data = remove_delete(output_data)
 
     # 保存处理后的数据到 JSON 文件
-    output_file = "convert_music_data.json"
+    output_file = "convert_intl_music_data.json"
     with open(ROOT / output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=4, ensure_ascii=False)
 
