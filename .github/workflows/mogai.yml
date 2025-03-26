@@ -3,6 +3,7 @@ name: Update All Music Data
 on:
   schedule:
     - cron: '0 1 * * *'
+  workflow_dispatch:
 
 jobs:
   move-file:
