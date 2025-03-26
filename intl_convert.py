@@ -7,7 +7,7 @@ ROOT = pathlib.Path(__file__).parent
 # 常量定义
 NEW_VERSION = "maimai でらっくす PRiSM"
 NEW_VERSION_RELEASES_DATE = 20250313
-MID_COUNTER = 1
+MID_COUNTER = 0
 
 
 def load_mapping(file_path):
@@ -164,9 +164,11 @@ def process_sd_song(song, from_mapping):
             sd_charts.append(parse_notes(song, diff_prefix, "SD"))
         else:
             sd_charts.append({"notes": [0] * 4, "charter": "-"})
-    global MID_COUNTER
-    mid = MID_COUNTER
-    MID_COUNTER += 1
+    cids = []
+    for i in range(len(sd_ds)):
+        global MID_COUNTER
+        MID_COUNTER += 1
+        cids.append(MID_COUNTER)
     
     basic_info = parse_basic_info(song, "SD", from_mapping)
     return {
@@ -177,7 +179,7 @@ def process_sd_song(song, from_mapping):
         "comment": "",
         "ds": sd_ds,
         "level": sd_levels,
-        "cids": [],
+        "cids": cids,
         "charts": sd_charts,
         "basic_info": basic_info
     }
@@ -214,9 +216,11 @@ def process_dx_song(song, from_mapping):
         else:
             dx_charts.append({"notes": [0] * 5, "charter": "-"})
             
-    global MID_COUNTER
-    mid = MID_COUNTER
-    MID_COUNTER += 1
+    cids = []
+    for i in range(len(dx_ds)):
+        global MID_COUNTER
+        MID_COUNTER += 1
+        cids.append(MID_COUNTER)
 
     basic_info = parse_basic_info(song, "DX", from_mapping)
     return {
@@ -227,7 +231,7 @@ def process_dx_song(song, from_mapping):
         "comment": "",
         "ds": dx_ds,
         "level": dx_levels,
-        "cids": [],
+        "cids": cids,
         "charts": dx_charts,
         "basic_info": basic_info
     }
@@ -288,7 +292,12 @@ def process_utage_song(song, from_mapping):
             
         chart = [{"notes": notes, "charter": "-"}]
         basic_info = parse_basic_info(song, "utage", from_mapping)
-            
+    
+    cids = []
+    for i in range(len(ds)):
+        global MID_COUNTER
+        MID_COUNTER += 1
+        cids.append(MID_COUNTER)
     
     return {
         "id": temporary_id,
@@ -297,7 +306,7 @@ def process_utage_song(song, from_mapping):
         "comment": song.get("comment", ""),
         "ds": ds,
         "level": level_list,
-        "cids": [],
+        "cids": cids,
         "charts": chart,
         "basic_info": basic_info
     }
@@ -344,7 +353,7 @@ def update_ids_from_origin(output_data, origin_music_data):
                     song["id"] = origin_item.get("id", song["id"])
             elif song.get("type", "") != "UTAGE":
                 song["basic_info"]["bpm"] = origin_item.get("bpm", origin_item["basic_info"]["bpm"])
-                song["ds"] = origin_item.get("ds", song["ds"])
+                song["ds"] = origin_item.get("ds", origin_item["ds"])
                 song["charts"] = origin_item.get("charts", song["charts"])
                 
             elif song.get("type", "") == "UTAGE":
@@ -415,14 +424,14 @@ def intl_music_data():
                 j['charts'] = i['charts']
                 j['comment'] = i['comment']
             
-            if i['title'] == j['title'] and i['type'] == j['type'] and j['basic_info']['from'] == "maimai でらっくす PRiSM":
+            if i['title'] == j['title'] and i['type'] == j['type'] and j['basic_info']['from'] == NEW_VERSION:
                 j['id'] = i['id']
                 
-            if j['basic_info']['from'] == "maimai でらっくす PRiSM":
+            if j['basic_info']['from'] == NEW_VERSION:
                 j['basic_info']['is_new'] = True
             else:
                 j['basic_info']['is_new'] = False
-            
+            j['cids'] = i['cids']
             j['basic_info']['release_date'] = i['basic_info']['release_date']
 
     with open(ROOT / 'intl_music_data.json', 'w', encoding='utf-8') as f:
