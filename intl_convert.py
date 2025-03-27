@@ -491,7 +491,5 @@ def main():
 
     print(f"数据已保存到 {output_file}，先根据 origin_music_data.json 更新 id，再仅在 (title,type) 匹配时更新 ds 前两项，最后对相同 title 的 SD 和 DX 进行 id 调整。")
 
-    intl_music_data()
-
 if __name__ == "__main__":
     main()
