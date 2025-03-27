@@ -113,6 +113,9 @@ def parse_basic_info(song, song_type, from_mapping):
             raw_from = song.get("date_added", "") if song_type == "DX" else song.get("date_updated", "")
         else:
             raw_from = song.get("date_added", "")
+            
+    if song['title'] == "夜明けまであと３秒":
+        raw_from = "20170214"
 
     mapped_from = map_date_to_version(raw_from, from_mapping)
     bpm_value = song.get("bpm", "0")
