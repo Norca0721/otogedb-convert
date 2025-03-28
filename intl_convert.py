@@ -406,18 +406,15 @@ def adjust_sd_dx_ids(output_data):
                 # 若 SD 的 id 不能转换为整数，则跳过此项
                 pass
             
-def intl_music_data():
+def intl_music_data(output_data):
     """
     国际服数据的宴谱填充，prism id转换
     """
 
     with open(ROOT / "music_data" / "origin_music_data.json", "r", encoding="utf-8") as f:
         origin_music_data = json.load(f)
-    
-    with open(ROOT / "convert_music_data.json", "r", encoding="utf-8") as f:
-        convert_data = json.load(f)
         
-    for i in convert_data:
+    for i in output_data:
         for j in origin_music_data:
             if i['title'] == j['title'] and i['type'].lower() == "utage":
                 
@@ -426,16 +423,17 @@ def intl_music_data():
                 j['charts'] = i['charts']
                 j['comment'] = i['comment']
             
-            if i['title'] == j['title'] and i['type'] == j['type'] and j['basic_info']['from'] == NEW_VERSION:
+            if i['title'] == j['title'] and i['type'] == j['type']:
                 j['id'] = i['id']
+                j['cids'] = i['cids']
+                j['basic_info']['release_date'] = i['basic_info']['release_date']
                 
             if j['basic_info']['from'] == NEW_VERSION:
                 j['basic_info']['is_new'] = True
             else:
                 j['basic_info']['is_new'] = False
                 
-            j['cids'] = i['cids']
-            j['basic_info']['release_date'] = i['basic_info']['release_date']
+            
 
     with open(ROOT / 'intl_music_data.json', 'w', encoding='utf-8') as f:
         json.dump(origin_music_data, f, indent=4, ensure_ascii=False)
@@ -451,6 +449,8 @@ def fix_version(output_data):
         for j in origin_music_data:
             if i['title'] == j['title'] and i['type'] == j['type']:
                 i['basic_info']['from'] = j['basic_info']['from']
+                if i['type'].lower() != 'utage':
+                    i['ds'] = j['ds']
 
 def main():
     # 数据来源 URL
@@ -502,6 +502,8 @@ def main():
     output_file = "convert_intl_music_data.json"
     with open(ROOT / output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=4, ensure_ascii=False)
+        
+    intl_music_data(output_data)
 
     print(f"数据已保存到 {output_file}，先根据 origin_music_data.json 更新 id，再仅在 (title,type) 匹配时更新 ds 前两项，最后对相同 title 的 SD 和 DX 进行 id 调整。")
 
