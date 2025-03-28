@@ -443,7 +443,6 @@ def main():
     # 数据来源 URL
     oto_data_url = "https://raw.gitmirror.com/Norca0721/otoge-db/refs/heads/maimai-staging/maimai/data/music-ex.json"
     #oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
-    #oto_data_url = "https://yusoraproject.github.io/otoge-db/maimai/data/music-ex.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
