@@ -417,23 +417,23 @@ def intl_music_data(output_data):
     for i in output_data:
         for j in origin_music_data:
             if i['title'] == j['title'] and i['type'].lower() == "utage":
-                
                 j['level'] = i['level']
                 j['ds'] = i['ds']
                 j['charts'] = i['charts']
                 j['comment'] = i['comment']
-            
+
             if i['title'] == j['title'] and i['type'] == j['type']:
                 j['id'] = i['id']
                 j['cids'] = i['cids']
                 j['basic_info']['release_date'] = i['basic_info']['release_date']
-                
-            if j['basic_info']['from'] == NEW_VERSION:
-                j['basic_info']['is_new'] = True
-            else:
-                j['basic_info']['is_new'] = False
-                
-            
+
+    for j in origin_music_data:
+        if j['basic_info']['from'] == NEW_VERSION:
+            j['basic_info']['is_new'] = True
+        else:
+            j['basic_info']['is_new'] = False
+
+    origin_music_data = [j for j in origin_music_data if j['basic_info']['release_date'] != ""]
 
     with open(ROOT / 'intl_music_data.json', 'w', encoding='utf-8') as f:
         json.dump(origin_music_data, f, indent=4, ensure_ascii=False)
@@ -451,10 +451,10 @@ def fix_version(output_data):
                 i['basic_info']['from'] = j['basic_info']['from']
                 if i['type'].lower() != 'utage':
                     i['ds'] = j['ds']
-
+                    
 def main():
     # 数据来源 URL
-    oto_data_intl_url = "https://raw.gitmirror.com/Norca0721/otoge-db/refs/heads/maimai-staging/maimai/data/music-ex-intl.json"
+    oto_data_intl_url = "https://norca0721.github.io/otoge-db/maimai/data/music-ex-intl.json"
     #oto_data_intl_url = "https://otoge-db.net/maimai/data/music-ex-intl.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
