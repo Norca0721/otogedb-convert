@@ -100,6 +100,7 @@ def parse_basic_info(song, song_type, from_mapping):
     # 优先判断 SD 和 DX 的情况，以及是否为utage的情况，其它情况统一使用 date_added
     
     date_added = song.get("date_intl_added", 0)
+    jp_date_added = song.get("date_added", 0)
     if int(date_added) < 20191115:
         if song_type == "utage":
             raw_from = song.get("date_intl_updated", "") or song.get("date_intl_added", "")
@@ -117,6 +118,7 @@ def parse_basic_info(song, song_type, from_mapping):
             
     if song['title'] == "夜明けまであと３秒":
         raw_from = "20170214"
+        
 
     mapped_from = map_date_to_version(raw_from, from_mapping)
     bpm_value = song.get("bpm", "0")
@@ -431,6 +433,7 @@ def intl_music_data():
                 j['basic_info']['is_new'] = True
             else:
                 j['basic_info']['is_new'] = False
+                
             j['cids'] = i['cids']
             j['basic_info']['release_date'] = i['basic_info']['release_date']
 
@@ -439,6 +442,15 @@ def intl_music_data():
         
 def remove_delete(output_data):
     return [item for item in output_data if item['basic_info']['release_date'] != ""]
+
+def fix_version(output_data):
+    with open(ROOT / "music_data" / "origin_music_data.json", "r", encoding="utf-8") as f:
+        origin_music_data = json.load(f)
+        
+    for i in output_data:
+        for j in origin_music_data:
+            if i['title'] == j['title'] and i['type'] == j['type']:
+                i['basic_info']['from'] = j['basic_info']['from']
 
 def main():
     # 数据来源 URL
@@ -483,6 +495,8 @@ def main():
     adjust_sd_dx_ids(output_data)
     
     output_data = remove_delete(output_data)
+    
+    fix_version(output_data)
 
     # 保存处理后的数据到 JSON 文件
     output_file = "convert_intl_music_data.json"
