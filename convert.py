@@ -441,13 +441,13 @@ def intl_music_data():
 
 def main():
     # 数据来源 URL
-    oto_data_url = "https://raw.githubusercontent.com/Norca0721/otoge-db/refs/heads/master/maimai/data/music-ex.json"
+    oto_data_url = "https://raw.gitmirror.com/Norca0721/otoge-db/refs/heads/maimai-staging/maimai/data/music-ex.json"
     #oto_data_url = "https://otoge-db.net/maimai/data/music-ex.json"
     #oto_data_url = "https://yusoraproject.github.io/otoge-db/maimai/data/music-ex.json"
     diving_fish_url = "https://www.diving-fish.com/api/maimaidxprober/music_data"
 
     # 获取远程数据
-    data = requests.get(oto_data_url, verify=False).json()
+    data = requests.get(oto_data_url).json()
     diving_fish_data = requests.get(diving_fish_url).json()
 
     # 加载用于版本映射的本地文件
