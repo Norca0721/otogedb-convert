@@ -447,7 +447,7 @@ def main():
 
     # 获取远程数据
     data = requests.get(oto_data_url).json()
-    diving_fish_data = requests.get(diving_fish_url).json()
+    #diving_fish_data = requests.get(diving_fish_url).json()
 
     # 加载用于版本映射的本地文件
     from_mapping = load_mapping(ROOT / "music_data/mapping.json")
@@ -467,14 +467,14 @@ def main():
 
     # 从本地 origin_music_data.json 中加载数据，并更新 id
     try:
-        with open(ROOT / "music_data/origin_music_data.json", "r", encoding="utf-8") as f:
+        with open(ROOT / "music_data/jp_music_data.json", "r", encoding="utf-8") as f:
             origin_music_data = json.load(f)
     except FileNotFoundError:
         origin_music_data = []
     update_ids_from_origin(output_data, origin_music_data)
 
     # 根据 diving_fish 数据更新 ds 数组的前两项
-    update_ds_from_diving_fish(output_data, diving_fish_data)
+    #update_ds_from_diving_fish(output_data, diving_fish_data)
 
     # 对同一 title 的 SD 与 DX 进行 id 调整
     adjust_sd_dx_ids(output_data)
