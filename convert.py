@@ -375,12 +375,7 @@ def update_ds_from_diving_fish(output_data, diving_fish_data):
         key = (song.get("title", ""), song.get("type", ""))
         if key in diving_fish_dict:
             df_song = diving_fish_dict[key]
-            if (
-                "ds" in df_song and isinstance(df_song["ds"], list) and len(df_song["ds"]) >= 2
-                and "ds" in song and isinstance(song["ds"], list) and len(song["ds"]) >= 2
-            ):
-                song["ds"][0] = df_song["ds"][0]
-                song["ds"][1] = df_song["ds"][1]
+            song["ds"] = df_song["ds"]
             output_data[idx] = song
 
 
@@ -476,7 +471,7 @@ def main():
     update_ids_from_origin(output_data, origin_music_data)
 
     # 根据 diving_fish 数据更新 ds 数组的前两项
-    #update_ds_from_diving_fish(output_data, diving_fish_data)
+    update_ds_from_diving_fish(output_data, origin_music_data)
 
     # 对同一 title 的 SD 与 DX 进行 id 调整
     adjust_sd_dx_ids(output_data)
