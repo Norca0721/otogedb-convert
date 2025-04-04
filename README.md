@@ -14,6 +14,7 @@
 ```sh
 pip install -r requirements.txt
 ```
+或在`action`中手动触发
 
 ## ✨ 使用
 
