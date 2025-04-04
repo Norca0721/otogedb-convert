@@ -3,7 +3,7 @@ name: Update All Music Data
 on:
   push:
     branches:
-      - main
+      - mogai
   schedule:
     - cron: '0 */8 * * *'
   workflow_dispatch:
