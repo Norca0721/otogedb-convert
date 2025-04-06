@@ -95780,5 +95780,73 @@
             "from": "maimai でらっくす BUDDiES PLUS",
             "is_new": false
         }
+    },
+    {
+        "id": "11846",
+        "title": "スナネコのうた",
+        "type": "DX",
+        "comment": "",
+        "ds": [
+            2.0,
+            6.0,
+            9.7,
+            13.4
+        ],
+        "level": [
+            "2",
+            "6",
+            "9+",
+            "13"
+        ],
+        "cids": [
+            5629,
+            5630,
+            5631,
+            5632
+        ],
+        "charts": [],
+        "basic_info": {
+            "title": "スナネコのうた",
+            "artist": "ぷにぷに電機",
+            "genre": "POPS＆アニメ",
+            "bpm": 92,
+            "release_date": "20250401",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
+    },
+    {
+        "id": "11845",
+        "title": "マヌルネコのうた",
+        "type": "DX",
+        "comment": "",
+        "ds": [
+            3.0,
+            6.0,
+            9.8,
+            13.0
+        ],
+        "level": [
+            "3",
+            "6",
+            "9+",
+            "13"
+        ],
+        "cids": [
+            5625,
+            5626,
+            5627,
+            5628
+        ],
+        "charts": [],
+        "basic_info": {
+            "title": "マヌルネコのうた",
+            "artist": "小田朋美",
+            "genre": "POPS＆アニメ",
+            "bpm": 137,
+            "release_date": "20250401",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
     }
 ]

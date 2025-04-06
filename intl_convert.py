@@ -348,7 +348,8 @@ def update_ids_from_origin(output_data, origin_music_data):
         if key in origin_dict and origin_dict[key]:
             origin_item = origin_dict[key]
             version = origin_item.get("from", song["basic_info"]["from"])
-            if version not in ["maimai でらっくす PRiSM", "maimai でらっくす PRiSM PLUS"]:
+            #if version not in ["maimai でらっくす PRiSM", "maimai でらっくす PRiSM PLUS"]:
+            if version:
                 if song.get("type", "") == "UTAGE":
                     song["id"] = origin_item.get("id", song["id"])
                     #song["ds"] = origin_item.get("ds", song["ds"])
