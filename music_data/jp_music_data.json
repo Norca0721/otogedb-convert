@@ -95848,5 +95848,41 @@
             "from": "maimai でらっくす PRiSM PLUS",
             "is_new": true
         }
+    },
+    {
+        "id": "100851",
+        "title": "[幸]犬日和。(はっぴー歌唱Ver)",
+        "type": "UTAGE",
+        "comment": "HOLDだけでがんばろうとした。",
+        "ds": [
+            13.0
+        ],
+        "level": [
+            "13?"
+        ],
+        "cids": [
+            5633
+        ],
+        "charts": [
+            {
+                "notes": [
+                    1,
+                    402,
+                    1,
+                    0,
+                    8
+                ],
+                "charter": "-"
+            }
+        ],
+        "basic_info": {
+            "title": "[幸]犬日和。(はっぴー歌唱Ver)",
+            "artist": "こうのさんとはっぴーちゃん/Hiroの犯行",
+            "genre": "宴会場",
+            "bpm": 190,
+            "release_date": "20250401",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
     }
 ]
