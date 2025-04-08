@@ -18,9 +18,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: 'mogai-auto'  # 显式指定分支
 
       - name: Debug - List files in repository
-        run: ls -la  # Verify what files exist
+        run: ls -la  # 确认根目录包含文件
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
@@ -28,7 +30,6 @@ jobs:
       - name: Prepare artifact
         run: |
           mkdir -p output
-          # Verify files exist before copying
           if [ -f converted_data.json ] && [ -f converted_data_intl.json ]; then
             cp converted_data.json converted_data_intl.json output/
           else
