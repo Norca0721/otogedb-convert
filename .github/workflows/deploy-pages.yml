@@ -1,30 +1,28 @@
 name: Deploy JSON to GitHub Pages
 
-# 只在 mogai-auto 分支有推送时触发
 on:
   push:
     branches:
-      - mogai
+      - mogai-auto
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # 给 Pages 所需的权限
     permissions:
       contents: read
       pages: write
       id-token: write
 
     steps:
-      # 1. 签出代码（完整历史，以防需要切分大文件）
+      # 1. 签出代码
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # 2. 初始化 Pages 环境
+      # 2. 配置 Pages 环境
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v3
 
@@ -32,9 +30,8 @@ jobs:
       - name: Prepare artifact
         run: |
           mkdir -p output
-          # 复制两个 JSON 到发布目录
           cp converted_data.json converted_data_intl.json output/
-          # 如果你想加一个格式化展示页面，可以取消下面几行的注释：
+          # 如果想同时发布一个格式化页面，取消下面注释：
           # cat > output/index.html << 'EOF'
           # <!DOCTYPE html>
           # <html lang="zh-CN">
@@ -50,7 +47,7 @@ jobs:
           # </html>
           # EOF
 
-      # 4. 上传 artifact 供 Pages 使用
+      # 4. 上传给 Pages 用的 artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
