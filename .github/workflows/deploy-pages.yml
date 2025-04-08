@@ -3,6 +3,7 @@ name: Deploy JSON to GitHub Pages
 on:
   push:
     branches:
+      - mogai
       - mogai-auto
   workflow_dispatch:
 
