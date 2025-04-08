@@ -4,7 +4,8 @@ name: Deploy JSON to GitHub Pages
 on:
   push:
     branches:
-      - mogai-auto
+      - mogai
+  workflow_dispatch:
 
 jobs:
   deploy:
