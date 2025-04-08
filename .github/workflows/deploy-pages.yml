@@ -19,19 +19,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: 'mogai-auto'  # 显式指定分支
+          ref: 'mogai-auto'
 
       - name: Debug - List files in repository
-        run: ls -la  # 确认根目录包含文件
+        run: ls -la
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
+        with:
+          static_site_generator: generic
+          path: output  # 指定自定义目录
 
       - name: Prepare artifact
         run: |
           mkdir -p output
           if [ -f converted_data.json ] && [ -f converted_data_intl.json ]; then
             cp converted_data.json converted_data_intl.json output/
+            touch output/.nojekyll  # 禁用 Jekyll（可选）
           else
             echo "ERROR: JSON files not found!"
             exit 1
@@ -39,6 +43,8 @@ jobs:
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: output  # 显式指定上传路径
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
