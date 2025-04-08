@@ -5,7 +5,7 @@ on:
     branches:
       - mogai-auto
       - mogai
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -17,39 +17,23 @@ jobs:
       id-token: write
 
     steps:
-      # 1. 签出代码
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # 2. 初始化 Pages 环境
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v3
 
-      # 3. 准备要发布的文件
       - name: Prepare artifact
         run: |
           mkdir -p output
           cp converted_data.json converted_data_intl.json output/
-          # （可选）生成一个格式化展示页面
-          # cat > output/index.html << 'EOF'
-          # <!DOCTYPE html><html><head><meta charset="utf-8"><title>JSON Viewer</title></head>
-          # <body><pre id="data">Loading…</pre>
-          # <script>
-          #   fetch('converted_data.json')
-          #     .then(r=>r.json())
-          #     .then(d=>document.getElementById('data').textContent=JSON.stringify(d,null,2))
-          #     .catch(e=>document.getElementById('data').textContent=e);
-          # </script></body></html>
-          # EOF
 
-      # 4. 上传给 Pages 用的 artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: output
 
-      # 5. 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
