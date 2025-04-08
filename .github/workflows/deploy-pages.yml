@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - mogai-auto
-      - mogai
   workflow_dispatch:
 
 jobs:
@@ -18,18 +17,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Updated to v4
+        uses: actions/checkout@v4
+
+      - name: Debug - List files in repository
+        run: ls -la  # Verify what files exist
 
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v4  # Updated to v4
+        uses: actions/configure-pages@v4
 
       - name: Prepare artifact
         run: |
           mkdir -p output
-          cp converted_data.json converted_data_intl.json output/
+          # Verify files exist before copying
+          if [ -f converted_data.json ] && [ -f converted_data_intl.json ]; then
+            cp converted_data.json converted_data_intl.json output/
+          else
+            echo "ERROR: JSON files not found!"
+            exit 1
+          fi
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3  # Updated to v3
+        uses: actions/upload-pages-artifact@v3
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4  # Updated to v4
+        uses: actions/deploy-pages@v4
