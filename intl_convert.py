@@ -183,7 +183,7 @@ def process_sd_song(song, from_mapping):
         "comment": "",
         "ds": sd_ds,
         "level": sd_levels,
-        "cids": cids,
+        "cids": [],
         "charts": sd_charts,
         "basic_info": basic_info
     }
@@ -235,7 +235,7 @@ def process_dx_song(song, from_mapping):
         "comment": "",
         "ds": dx_ds,
         "level": dx_levels,
-        "cids": cids,
+        "cids": [],
         "charts": dx_charts,
         "basic_info": basic_info
     }
@@ -310,7 +310,7 @@ def process_utage_song(song, from_mapping):
         "comment": song.get("comment", ""),
         "ds": ds,
         "level": level_list,
-        "cids": cids,
+        "cids": [],
         "charts": chart,
         "basic_info": basic_info
     }
