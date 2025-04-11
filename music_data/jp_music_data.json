@@ -95884,5 +95884,65 @@
             "from": "maimai でらっくす PRiSM PLUS",
             "is_new": true
         }
+    },
+    {
+        "id": "11847",
+        "title": "M@GICAL☆CURE! LOVE ♥ SHOT!",
+        "type": "DX",
+        "comment": "",
+        "basic_info": {
+            "title": "M@GICAL☆CURE! LOVE ♥ SHOT!",
+            "artist": "SAWTOWNE",
+            "genre": "niconico＆ボーカロイド",
+            "bpm": 0,
+            "release_date": "20250411",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
+    },
+    {
+        "id": "11848",
+        "title": "Overjoy ★ OVERDOSE!!",
+        "type": "DX",
+        "comment": "",
+        "basic_info": {
+            "title": "Overjoy ★ OVERDOSE!!",
+            "artist": "Luna Fozer (BilliumMoto, 黒皇帝, Sobrem feat. vally.exe)",
+            "genre": "ゲーム＆バラエティ",
+            "bpm": 0,
+            "release_date": "20250411",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
+    },
+    {
+        "id": "11810",
+        "title": "ATLAS RUSH",
+        "type": "DX",
+        "comment": "",
+        "basic_info": {
+            "title": "ATLAS RUSH",
+            "artist": "kanone",
+            "genre": "maimai",
+            "bpm": 0,
+            "release_date": "20250411",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
+    },
+    {
+        "id": "11849",
+        "title": "DATAERR0R",
+        "type": "DX",
+        "comment": "",
+        "basic_info": {
+            "title": "DATAERR0R",
+            "artist": "Cosmograph",
+            "genre": "ゲーム＆バラエティ",
+            "bpm": 0,
+            "release_date": "20250411",
+            "from": "maimai でらっくす PRiSM PLUS",
+            "is_new": true
+        }
     }
 ]
