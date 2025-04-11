@@ -376,11 +376,11 @@ def update_ds_from_diving_fish(output_data, diving_fish_data):
         key = (song.get("title", ""), song.get("type", ""))
         if key in diving_fish_dict:
             df_song = diving_fish_dict[key]
-
-            if df_song.get('ds'):
-                song['ds'] = df_song['ds']
-            if df_song.get('charts'):
-                song['charts'] = df_song['charts']
+            if song['type'].lower() != 'utage':
+                if df_song.get('ds'):
+                    song['ds'] = df_song['ds']
+                if df_song.get('charts'):
+                    song['charts'] = df_song['charts']
 
             output_data[idx] = song
 
