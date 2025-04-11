@@ -381,6 +381,8 @@ def update_ds_from_diving_fish(output_data, diving_fish_data):
                     song['ds'] = df_song['ds']
                 if df_song.get('charts'):
                     song['charts'] = df_song['charts']
+                if df_song['basic_info'].get('bpm') != 0:
+                    song['basic_info']['bpm'] = df_song['basic_info']['bpm']
 
             output_data[idx] = song
 
