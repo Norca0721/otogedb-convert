@@ -356,6 +356,7 @@ def update_ids_from_origin(output_data, origin_music_data):
                     #song["charts"] = origin_item.get("charts", song["charts"])
                 else:
                     song["id"] = origin_item.get("id", song["id"])
+                    
             elif song.get("type", "") != "UTAGE":
                 song["basic_info"]["bpm"] = origin_item.get("bpm", origin_item["basic_info"]["bpm"])
                 song["ds"] = origin_item.get("ds", song["ds"])
@@ -370,10 +371,10 @@ def update_ds_from_diving_fish(output_data, diving_fish_data):
     仅在 (title, type) 匹配时，使用 diving_fish 数据覆盖谱面 ds 数组的前两项。
     """
     diving_fish_dict = {
-        (item.get("title", ""), item.get("type", "")): item for item in diving_fish_data
+        (item.get("id", "")): item for item in diving_fish_data
     }
     for idx, song in enumerate(output_data):
-        key = (song.get("title", ""), song.get("type", ""))
+        key = (song.get("id", ""))
         if key in diving_fish_dict:
             df_song = diving_fish_dict[key]
             if song['type'].lower() != 'utage':
